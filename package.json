@@ -1,0 +1,15 @@
+{
+  "name": "clube-pharma-servidor-completo",
+  "version": "1.0.0",
+  "description": "Servidor que serve frontend e faz proxy para backend",
+  "main": "servidor_completo.js",
+  "scripts": {
+    "start": "node servidor_completo.js",
+    "dev": "node servidor_completo.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6",
+    "cors": "^2.8.5"
+  }
+}
