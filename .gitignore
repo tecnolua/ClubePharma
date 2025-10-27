@@ -1,0 +1,153 @@
+# ===========================
+# CLUBE PHARMA - MONOREPO
+# ===========================
+
+# ===========================
+# Backend (Node.js/Express)
+# ===========================
+
+# Node modules
+clube_pharma_backend/node_modules/
+clube_pharma_backend/npm-debug.log*
+clube_pharma_backend/yarn-debug.log*
+clube_pharma_backend/yarn-error.log*
+
+# Environment variables
+clube_pharma_backend/.env
+clube_pharma_backend/.env.local
+clube_pharma_backend/.env.*.local
+
+# Database
+clube_pharma_backend/prisma/*.db
+clube_pharma_backend/prisma/*.db-journal
+
+# Uploads
+clube_pharma_backend/uploads/*
+!clube_pharma_backend/uploads/.gitkeep
+
+# Logs
+clube_pharma_backend/logs/
+clube_pharma_backend/*.log
+
+# Build
+clube_pharma_backend/dist/
+clube_pharma_backend/build/
+
+# ===========================
+# Frontend (Flutter)
+# ===========================
+
+# Miscellaneous
+clube_pharma_frontend/*.class
+clube_pharma_frontend/*.log
+clube_pharma_frontend/*.pyc
+clube_pharma_frontend/*.swp
+clube_pharma_frontend/.DS_Store
+clube_pharma_frontend/.atom/
+clube_pharma_frontend/.buildlog/
+clube_pharma_frontend/.history
+clube_pharma_frontend/.svn/
+clube_pharma_frontend/migrate_working_dir/
+
+# IntelliJ related
+clube_pharma_frontend/*.iml
+clube_pharma_frontend/*.ipr
+clube_pharma_frontend/*.iws
+clube_pharma_frontend/.idea/
+
+# Flutter/Dart/Pub related
+clube_pharma_frontend/**/doc/api/
+clube_pharma_frontend/**/ios/Flutter/.last_build_id
+clube_pharma_frontend/.dart_tool/
+clube_pharma_frontend/.flutter-plugins
+clube_pharma_frontend/.flutter-plugins-dependencies
+clube_pharma_frontend/.packages
+clube_pharma_frontend/.pub-cache/
+clube_pharma_frontend/.pub/
+clube_pharma_frontend/build/
+
+# Web related
+clube_pharma_frontend/lib/generated_plugin_registrant.dart
+
+# Symbolication related
+clube_pharma_frontend/app.*.symbols
+
+# Obfuscation related
+clube_pharma_frontend/app.*.map.json
+
+# Android Studio
+clube_pharma_frontend/.android/
+clube_pharma_frontend/local.properties
+
+# Android related
+clube_pharma_frontend/**/android/**/gradle-wrapper.jar
+clube_pharma_frontend/**/android/.gradle
+clube_pharma_frontend/**/android/captures/
+clube_pharma_frontend/**/android/gradlew
+clube_pharma_frontend/**/android/gradlew.bat
+clube_pharma_frontend/**/android/local.properties
+clube_pharma_frontend/**/android/**/GeneratedPluginRegistrant.java
+clube_pharma_frontend/**/android/key.properties
+clube_pharma_frontend/*.jks
+
+# iOS/XCode related
+clube_pharma_frontend/**/ios/**/*.mode1v3
+clube_pharma_frontend/**/ios/**/*.mode2v3
+clube_pharma_frontend/**/ios/**/*.moved-aside
+clube_pharma_frontend/**/ios/**/*.pbxuser
+clube_pharma_frontend/**/ios/**/*.perspectivev3
+clube_pharma_frontend/**/ios/**/*sync/
+clube_pharma_frontend/**/ios/**/.sconsign.dblite
+clube_pharma_frontend/**/ios/**/.tags*
+clube_pharma_frontend/**/ios/**/.vagrant/
+clube_pharma_frontend/**/ios/**/DerivedData/
+clube_pharma_frontend/**/ios/**/Icon?
+clube_pharma_frontend/**/ios/**/Pods/
+clube_pharma_frontend/**/ios/**/.symlinks/
+clube_pharma_frontend/**/ios/**/profile
+clube_pharma_frontend/**/ios/**/xcuserdata
+clube_pharma_frontend/**/ios/.generated/
+clube_pharma_frontend/**/ios/Flutter/App.framework
+clube_pharma_frontend/**/ios/Flutter/Flutter.framework
+clube_pharma_frontend/**/ios/Flutter/Flutter.podspec
+clube_pharma_frontend/**/ios/Flutter/Generated.xcconfig
+clube_pharma_frontend/**/ios/Flutter/ephemeral
+clube_pharma_frontend/**/ios/Flutter/app.flx
+clube_pharma_frontend/**/ios/Flutter/app.zip
+clube_pharma_frontend/**/ios/Flutter/flutter_assets/
+clube_pharma_frontend/**/ios/Flutter/flutter_export_environment.sh
+clube_pharma_frontend/**/ios/ServiceDefinitions.json
+clube_pharma_frontend/**/ios/Runner/GeneratedPluginRegistrant.*
+
+# macOS
+clube_pharma_frontend/**/macos/Flutter/GeneratedPluginRegistrant.swift
+
+# Coverage
+clube_pharma_frontend/coverage/
+
+# Windows
+clube_pharma_frontend/**/windows/flutter/generated_plugin_registrant.cc
+clube_pharma_frontend/**/windows/flutter/generated_plugin_registrant.h
+
+# Linux
+clube_pharma_frontend/**/linux/flutter/generated_plugin_registrant.cc
+clube_pharma_frontend/**/linux/flutter/generated_plugin_registrant.h
+
+# ===========================
+# General
+# ===========================
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~

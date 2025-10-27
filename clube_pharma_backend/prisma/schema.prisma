@@ -1,0 +1,312 @@
+// This is your Prisma schema file
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enums
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum PlanType {
+  BASIC
+  FAMILY
+}
+
+enum TreatmentStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  REFUNDED
+  CANCELLED
+}
+
+enum CouponType {
+  PERCENTAGE
+  FIXED
+}
+
+// Models
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  password      String
+  name          String
+  cpf           String?  @unique
+  phone         String?
+  avatar        String?
+  role          UserRole @default(USER)
+  planType      PlanType @default(BASIC)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Password Reset
+  resetToken        String?
+  resetTokenExpiry  DateTime?
+
+  // Relations
+  familyMembers FamilyMember[]
+  treatments    Treatment[]
+  prescriptions Prescription[]
+  exams         Exam[]
+  appointments  Appointment[]
+  orders        Order[]
+  cartItems     CartItem[]
+  payments      Payment[]
+
+  @@map("users")
+}
+
+model FamilyMember {
+  id        String   @id @default(uuid())
+  userId    String
+  name      String
+  birthDate DateTime
+  cpf       String?
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("family_members")
+}
+
+model Treatment {
+  id              String           @id @default(uuid())
+  userId          String
+  medicationName  String
+  dosage          String
+  frequency       String
+  startDate       DateTime
+  endDate         DateTime
+  reminderTime    String?
+  status          TreatmentStatus  @default(ACTIVE)
+  notes           String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pillTakes       PillTake[]
+
+  @@map("treatments")
+}
+
+model PillTake {
+  id          String   @id @default(uuid())
+  treatmentId String
+  takenAt     DateTime @default(now())
+  notes       String?
+
+  treatment   Treatment @relation(fields: [treatmentId], references: [id], onDelete: Cascade)
+
+  @@map("pill_takes")
+}
+
+model Prescription {
+  id          String   @id @default(uuid())
+  userId      String
+  title       String
+  fileUrl     String
+  doctorName  String?
+  issueDate   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("prescriptions")
+}
+
+model Exam {
+  id          String   @id @default(uuid())
+  userId      String
+  title       String
+  fileUrl     String
+  examType    String?
+  examDate    DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("exams")
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  description String   @db.Text
+  price       Decimal  @db.Decimal(10, 2)
+  discount    Int      @default(0)
+  category    String
+  stock       Int      @default(0)
+  imageUrl    String?
+  sku         String?  @unique
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+
+  @@map("products")
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
+  userId    String
+  productId String
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@map("cart_items")
+}
+
+model Order {
+  id            String      @id @default(uuid())
+  userId        String
+  status        OrderStatus @default(PENDING)
+  subtotal      Decimal     @db.Decimal(10, 2)
+  discount      Decimal     @db.Decimal(10, 2) @default(0)
+  total         Decimal     @db.Decimal(10, 2)
+  paymentMethod String?
+  paymentId     String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items         OrderItem[]
+  payment       Payment?
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String
+  productId String
+  quantity  Int
+  price     Decimal  @db.Decimal(10, 2)
+  discount  Decimal  @db.Decimal(10, 2) @default(0)
+
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id])
+
+  @@map("order_items")
+}
+
+model Doctor {
+  id           String   @id @default(uuid())
+  name         String
+  specialty    String
+  crm          String   @unique
+  rating       Float    @default(0)
+  telemedicine Boolean  @default(false)
+  clinicName   String
+  address      String
+  city         String
+  state        String
+  zipCode      String?
+  phone        String?
+  email        String?
+  avatar       String?
+  price        Decimal  @db.Decimal(10, 2)
+  discount     Int      @default(20)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  appointments Appointment[]
+
+  @@map("doctors")
+}
+
+model Appointment {
+  id          String            @id @default(uuid())
+  userId      String
+  doctorId    String
+  date        DateTime
+  time        String
+  status      AppointmentStatus @default(SCHEDULED)
+  notes       String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  doctor      Doctor            @relation(fields: [doctorId], references: [id])
+
+  @@map("appointments")
+}
+
+model Payment {
+  id                String        @id @default(uuid())
+  orderId           String        @unique
+  userId            String
+  amount            Decimal       @db.Decimal(10, 2)
+  status            PaymentStatus @default(PENDING)
+  paymentMethod     String
+  mercadoPagoId     String?       @unique
+  preferenceId      String?
+  externalReference String?
+  paymentLink       String?
+  paidAt            DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  order             Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("payments")
+}
+
+model Coupon {
+  id          String     @id @default(uuid())
+  code        String     @unique
+  type        CouponType
+  value       Decimal    @db.Decimal(10, 2)
+  minPurchase Decimal?   @db.Decimal(10, 2)
+  maxUses     Int?
+  usedCount   Int        @default(0)
+  validFrom   DateTime   @default(now())
+  validUntil  DateTime?
+  isActive    Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@map("coupons")
+}

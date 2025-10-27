@@ -1,0 +1,222 @@
+### ClubePharma Authentication API Tests
+### Use with REST Client extension in VS Code or any HTTP client
+
+@baseUrl = http://localhost:3000
+@token = YOUR_TOKEN_HERE
+
+###############################################
+# Health Check
+###############################################
+
+### Health Check
+GET {{baseUrl}}/health
+
+###############################################
+# User Registration
+###############################################
+
+### Register User - Valid
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "joao.silva@example.com",
+  "password": "Password123",
+  "name": "João Silva",
+  "cpf": "12345678901",
+  "phone": "11987654321",
+  "planType": "BASIC"
+}
+
+### Register User - Minimal (without optional fields)
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "maria.santos@example.com",
+  "password": "SecurePass123",
+  "name": "Maria Santos"
+}
+
+### Register User - Family Plan
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "carlos.oliveira@example.com",
+  "password": "FamilyPlan123",
+  "name": "Carlos Oliveira",
+  "cpf": "98765432100",
+  "phone": "11912345678",
+  "planType": "FAMILY"
+}
+
+### Register User - Invalid Email (should fail)
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "invalid-email",
+  "password": "Password123",
+  "name": "Test User"
+}
+
+### Register User - Weak Password (should fail)
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "weak",
+  "name": "Test User"
+}
+
+### Register User - Duplicate Email (should fail after first registration)
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "joao.silva@example.com",
+  "password": "Password123",
+  "name": "Another User"
+}
+
+###############################################
+# User Login
+###############################################
+
+### Login - Valid Credentials
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "joao.silva@example.com",
+  "password": "Password123"
+}
+
+### Login - Invalid Email
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "nonexistent@example.com",
+  "password": "Password123"
+}
+
+### Login - Invalid Password
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "joao.silva@example.com",
+  "password": "WrongPassword123"
+}
+
+### Login - Missing Fields (should fail)
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "joao.silva@example.com"
+}
+
+###############################################
+# Get Current User (Protected Route)
+###############################################
+
+### Get Current User - With Valid Token
+# First login and copy the token, then replace @token at the top
+GET {{baseUrl}}/api/auth/me
+Authorization: Bearer {{token}}
+
+### Get Current User - Without Token (should fail)
+GET {{baseUrl}}/api/auth/me
+
+### Get Current User - Invalid Token (should fail)
+GET {{baseUrl}}/api/auth/me
+Authorization: Bearer invalid_token_here
+
+###############################################
+# Password Reset Flow
+###############################################
+
+### Forgot Password - Valid Email
+POST {{baseUrl}}/api/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "joao.silva@example.com"
+}
+
+### Forgot Password - Non-existent Email (returns same message for security)
+POST {{baseUrl}}/api/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "nonexistent@example.com"
+}
+
+### Forgot Password - Invalid Email Format (should fail)
+POST {{baseUrl}}/api/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "not-an-email"
+}
+
+### Reset Password - Valid Token
+# Get the resetToken from the forgot-password response and paste it below
+POST {{baseUrl}}/api/auth/reset-password
+Content-Type: application/json
+
+{
+  "token": "PASTE_RESET_TOKEN_HERE",
+  "newPassword": "NewPassword123"
+}
+
+### Reset Password - Invalid Token (should fail)
+POST {{baseUrl}}/api/auth/reset-password
+Content-Type: application/json
+
+{
+  "token": "invalid_token",
+  "newPassword": "NewPassword123"
+}
+
+### Reset Password - Weak Password (should fail)
+POST {{baseUrl}}/api/auth/reset-password
+Content-Type: application/json
+
+{
+  "token": "PASTE_RESET_TOKEN_HERE",
+  "newPassword": "weak"
+}
+
+###############################################
+# After Password Reset - Login with New Password
+###############################################
+
+### Login with New Password
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "joao.silva@example.com",
+  "password": "NewPassword123"
+}
+
+###############################################
+# Edge Cases and Error Handling
+###############################################
+
+### 404 - Route Not Found
+GET {{baseUrl}}/api/nonexistent
+
+### Malformed JSON (should fail)
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "Password123"
+  // missing closing brace
