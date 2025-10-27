@@ -7,8 +7,13 @@ class ApiConfig {
   static const String baseUrl = 'http://localhost:3000';
   static const String baseUrlProd = 'https://api.clubepharma.com'; // for future production
 
-  // Current base URL (change to baseUrlProd for production)
-  static String get currentBaseUrl => baseUrl;
+  // Para acesso remoto via IP público, substitua pelo seu IP:
+  // static const String baseUrlRemote = 'http://SEU_IP_PUBLICO:3000';
+  // Exemplo: static const String baseUrlRemote = 'http://177.123.45.67:3000';
+  static const String baseUrlRemote = 'http://localhost:3000'; // Altere aqui!
+
+  // Current base URL (mude para baseUrlRemote para acesso externo)
+  static String get currentBaseUrl => baseUrl; // ou baseUrlRemote
 
   // API prefix
   static const String apiPrefix = '/api';

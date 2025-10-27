@@ -29,14 +29,20 @@ dotenv.config();
 // Initialize Express app
 const app = express();
 
-// CORS configuration - Allow all localhost ports in development
+// CORS configuration - Allow external access
 const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
 
-    // Allow all localhost origins in development
+    // Allow all localhost origins
     if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+      return callback(null, true);
+    }
+
+    // Allow external access (for remote IP access)
+    // In production, you should restrict this to specific IPs
+    if (process.env.NODE_ENV !== 'production') {
       return callback(null, true);
     }
 
@@ -48,6 +54,8 @@ const corsOptions = {
     callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   optionsSuccessStatus: 200
 };
 
@@ -118,12 +126,15 @@ app.use((err, req, res, next) => {
 // Server startup
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n🚀 ClubePharma API Server is running!`);
   console.log(`📍 Port: ${PORT}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🔗 Health Check: http://localhost:${PORT}/health`);
-  console.log(`📝 API Base URL: http://localhost:${PORT}/api\n`);
+  console.log(`🔗 Local: http://localhost:${PORT}/health`);
+  console.log(`🌐 Network: http://0.0.0.0:${PORT}/health`);
+  console.log(`📝 API Base URL: http://localhost:${PORT}/api`);
+  console.log(`\n💡 Para acesso externo, use: http://SEU_IP_PUBLICO:${PORT}`);
+  console.log(`   Veja ACESSO_REMOTO_IP.md para instruções completas\n`);
 });
 
 // Graceful shutdown
