@@ -34,11 +34,30 @@ app.use('/health', createProxyMiddleware({
 
 // Servir arquivos estáticos do Flutter Web
 const webDir = path.join(__dirname, 'clube_pharma_frontend', 'build', 'web');
+console.log(`📁 Servindo arquivos de: ${webDir}`);
+
+// Verificar se o diretório existe
+const fs = require('fs');
+if (!fs.existsSync(webDir)) {
+  console.error(`❌ ERRO: Diretório não encontrado: ${webDir}`);
+  console.error(`Execute: cd clube_pharma_frontend && flutter build web`);
+} else {
+  console.log(`✅ Diretório encontrado!`);
+}
+
 app.use(express.static(webDir));
+
+// Log de todas as requisições
+app.use((req, res, next) => {
+  console.log(`📥 ${req.method} ${req.path}`);
+  next();
+});
 
 // SPA - todas as outras rotas servem o index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(webDir, 'index.html'));
+  const indexPath = path.join(webDir, 'index.html');
+  console.log(`📄 Enviando: ${indexPath}`);
+  res.sendFile(indexPath);
 });
 
 app.listen(PORT, '0.0.0.0', () => {

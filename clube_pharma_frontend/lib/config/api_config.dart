@@ -19,9 +19,8 @@ class ApiConfig {
   static const String baseUrlServidorCompleto = 'http://localhost:8080';
 
   // Current base URL
-  // Use baseUrl para desenvolvimento local normal
-  // Use baseUrlServidorCompleto quando rodar via servidor_completo.js
-  static String get currentBaseUrl => baseUrlServidorCompleto;
+  // SOLUÇÃO SIMPLES: Use o ngrok do backend direto!
+  static String get currentBaseUrl => baseUrlNgrokBackend;
 
   // API prefix
   static const String apiPrefix = '/api';
