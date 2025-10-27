@@ -10,10 +10,12 @@ class ApiConfig {
   // Para acesso remoto via IP público, substitua pelo seu IP:
   // static const String baseUrlRemote = 'http://SEU_IP_PUBLICO:3000';
   // Exemplo: static const String baseUrlRemote = 'http://177.123.45.67:3000';
-  static const String baseUrlRemote = 'http://localhost:3000'; // Altere aqui!
 
-  // Current base URL (mude para baseUrlRemote para acesso externo)
-  static String get currentBaseUrl => baseUrl; // ou baseUrlRemote
+  // URL do Ngrok (atualize quando reiniciar o ngrok!)
+  static const String baseUrlNgrok = 'https://bicompact-jodee-appetizingly.ngrok-free.dev';
+
+  // Current base URL (mude para baseUrlNgrok para acesso externo via ngrok)
+  static String get currentBaseUrl => baseUrlNgrok; // Para usar ngrok
 
   // API prefix
   static const String apiPrefix = '/api';

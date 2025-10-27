@@ -56,7 +56,7 @@ $token = Read-Host
 
 if ($token) {
     Write-Host "`nConfigurando token..." -ForegroundColor Green
-    & ngrok config add-authtoken $token
+    & ngrok config cr_34fJeIf8ybt5HIIONdHhHfPCwx8 $token
 
     if ($LASTEXITCODE -eq 0) {
         Write-Host "    OK - Token configurado com sucesso!" -ForegroundColor Green
