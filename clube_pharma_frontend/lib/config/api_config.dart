@@ -11,11 +11,17 @@ class ApiConfig {
   // static const String baseUrlRemote = 'http://SEU_IP_PUBLICO:3000';
   // Exemplo: static const String baseUrlRemote = 'http://177.123.45.67:3000';
 
-  // URL do Ngrok (atualize quando reiniciar o ngrok!)
-  static const String baseUrlNgrok = 'https://bicompact-jodee-appetizingly.ngrok-free.dev';
+  // URL do Ngrok do backend direto
+  static const String baseUrlNgrokBackend = 'https://bicompact-jodee-appetizingly.ngrok-free.dev';
 
-  // Current base URL (mude para baseUrlNgrok para acesso externo via ngrok)
-  static String get currentBaseUrl => baseUrlNgrok; // Para usar ngrok
+  // URL para usar com servidor completo (frontend + proxy na porta 8080)
+  // Quando usar localhost:8080, a API está em http://localhost:8080/api
+  static const String baseUrlServidorCompleto = 'http://localhost:8080';
+
+  // Current base URL
+  // Use baseUrl para desenvolvimento local normal
+  // Use baseUrlServidorCompleto quando rodar via servidor_completo.js
+  static String get currentBaseUrl => baseUrlServidorCompleto;
 
   // API prefix
   static const String apiPrefix = '/api';
