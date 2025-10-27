@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nInitial commit: Clube Pharma - Sistema completo\n\n- Backend Node.js com Express, TypeScript e Prisma\n- Frontend Flutter multiplataforma\n- Autenticação JWT\n- Gerenciamento de produtos farmacêuticos\n- Sistema de pedidos e carrinho\n- Integração com Mercado Pago\n- Gestão de consultas médicas\n- Sistema de tratamentos e lembretes\n- Dashboard administrativo\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(gh:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nAdd: Configuração de deploy Vercel\n\n- Adiciona vercel.json para backend\n- Adiciona vercel.json para frontend\n- Cria guia completo de deploy (DEPLOY_VERCEL.md)\n- Instruções para deploy separado de backend e frontend\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push)"
     ],
     "deny": [],
     "ask": []
