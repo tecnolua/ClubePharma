@@ -10,7 +10,9 @@
       "Bash(git commit -m \"$(cat <<''EOF''\nAdd: Configuração para acesso remoto via IP público\n\n- Backend configurado para aceitar conexões externas (0.0.0.0)\n- CORS atualizado para permitir acesso remoto\n- Frontend preparado com configuração para IP remoto\n- Script PowerShell para liberar firewall automaticamente\n- Guia completo de configuração (ACESSO_REMOTO_IP.md)\n- Instruções de port forwarding e segurança\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
       "Bash(git commit:*)",
       "Bash(flutter build:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(node -e:*)",
+      "Bash(node listar_usuarios.js:*)"
     ],
     "deny": [],
     "ask": []
